@@ -15,11 +15,11 @@ struct fifa08save {
 struct fifa08save save;
 
 unsigned short calculateCRC(unsigned char *data) {
-	unsigned short crc = 19;
+	unsigned short crc = 18723;
 	int m = 0x000002c4;
 	
 	int i;
-	for(i = 0x00000044; i <= 0x000002c3; i++) {
+	for(i = 0x00000044; i < 0x00000500; i++) {
 		crc += (data[i] * ((m - (((i / 0x00000010) * 0x00000010))) - (((i / 4) * 4) - ((i / 0x00000010) * 0x00000010))));
 	}
 	
