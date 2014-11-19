@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 struct fifa08save {
 	union {
@@ -27,11 +28,18 @@ unsigned short calculateCRC(unsigned char *data) {
 }
 
 int main(int argc, char **argv) {
-	printf("FIFA 08 DS Save CRC fixer\n");
+	bool askBeforeFixing = true;
 	
-	if(argc != 2) {
-		printf("No input\n");
+	if(argc < 2) {
+		printf("FIFA 08 DS Save CRC fixer\n");
+		printf("Usage:\n");
+		printf("CRCFix save.sav [-f]\n");
+		printf(" -f: fix CRC without asking confirmation\n");
 		return 1;
+	}
+	
+	if(argc == 3 && !strcmp(argv[2], "-f")) {
+		askBeforeFixing = false;
 	}
 	
 	printf("File: %s\n", argv[1]);
@@ -53,15 +61,17 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	
-	printf("Current CRC   : 0x%8lx\n", save.crc);
+	printf("Current CRC   : 0x%p\n", save.crc);
 	
 	unsigned short crc = calculateCRC(save.data);
 	
-	printf("Calculated CRC: 0x%8lx\n", crc);
+	printf("Calculated CRC: 0x%p\n", crc);
 	
 	if(save.crc != crc) {
-		printf("Incorrect CRC, press enter to fix\n");
-		getchar();
+		if(askBeforeFixing) {
+			printf("Incorrect CRC, press enter to fix\n");
+			getchar();
+		}
 		
 		save.crc = crc;
 		
