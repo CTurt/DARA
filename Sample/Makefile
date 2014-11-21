@@ -5,7 +5,7 @@ OBJDUMP	:=	$(PREFIX)objdump
 #arm9-disassembled.s: arm9.bin
 #	$(OBJDUMP) -D -b binary -m arm arm9.bin > arm9-disassembled.s
 
-source/save.sav: arm9.bin
+save.sav: arm9.bin
 	$(CC) -nostartfiles -nostdlib source/save.s -o save.elf -Ttext=0x200228cf
 	$(OBJCOPY) -O binary save.elf save.sav
 	../CRCFix/CRCFix save.sav -f
