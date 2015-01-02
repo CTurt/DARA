@@ -11,14 +11,14 @@ Currently there is support for running code through the following games:
 - FIFA 10 (E),
 - FIFA Street 2 (E and U),
 
-Usage
-###
-CRCFix fixes the checksum of a save file to stop it showing up as corrupt in the game.
+### Usage
 
-Exploit directory builds the exploitable save games.
+Run `make` on the `CRCFix` directory to build CRCFix. This will be used to fix the checksum of a save file to stop it from showing up as corrupt in the game.
 
-Activating the exploit
-###
+Run `make` on the `Exploit` directory to build the exploitable save games.
+
+### Activating the exploit
+
 For FIFA 06 activate the exploit by going to "My Club", "Edit My Club".
 
 For FIFA 10 activate the exploit by going to "My FIFA 10", "Creation Zone", and then "My Custom Club".
