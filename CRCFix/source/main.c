@@ -10,10 +10,18 @@ struct game {
 	unsigned short (*crcCalculation)(unsigned char *data);
 };
 
+unsigned short fifa06ecrc(unsigned char *data);
 unsigned short fifa07ecrc(unsigned char *data);
 unsigned short fifa08ecrc(unsigned char *data);
 
 struct game games[] = {
+	{
+		name: "Fifa 06 E",
+		magic: 0xF1FA06AA,
+		crcOffset: 0x0A,
+		crcCalculation: fifa06ecrc,
+	},
+	
 	{
 		name: "Fifa 07 E",
 		magic: 0xF1FA07BD,
@@ -28,6 +36,18 @@ struct game games[] = {
 		crcCalculation: fifa08ecrc,
 	}
 };
+
+unsigned short fifa06ecrc(unsigned char *data) {
+	unsigned short crc = 64325;
+	int m = 344;
+	
+	int i;
+	for(i = 0x0000000C; i < 0x00000158; i++) {
+		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+	}
+	
+	return crc;
+}
 
 unsigned short fifa07ecrc(unsigned char *data) {
 	unsigned short crc = 24;
@@ -114,10 +134,11 @@ int main(int argc, char **argv) {
 	printf("Current CRC    : 0x%p\n", currentCrc);
 	
 	unsigned short crc = games[i].crcCalculation(data);
+	free(data);
 	
 	printf("Calculated CRC : 0x%p\n", crc);
 	
-	free(data);
+	//printf("Difference : %d\n", currentCrc - crc);
 	
 	if(currentCrc != crc) {
 		if(askBeforeFixing) {
