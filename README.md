@@ -2,18 +2,19 @@ DARA
 ====
 An attempt to exploit every single FIFA game on the DS (all regions) to run unsigned code through its save file.
 
-Currently there is complete support for running code through the following games:
+Currently there is support for running code through every single FIFA game on the DS:
 
 - FIFA 06 (E),
 - FIFA 07 (E and U),
 - FIFA 08 (E),
 - FIFA 09 (E),
 - FIFA 10 (E),
+- FIFA 11 (E),
 - FIFA Street 2 (E and U),
 - FIFA Street 3 (E),
 - FIFA World Cup 2006 (E),
 
-This is every FIFA game on the DS apart from FIFA 11.
+However the CRC code for all of the different regions still needs to be done.
 
 ### Usage
 
@@ -27,6 +28,8 @@ For FIFA 06, activate the exploit by going to "My Club", "Edit My Club".
 
 For FIFA 10, activate the exploit by going to "My FIFA 10", "Creation Zone", and then "My Custom Club".
 
+For FIFA 11, activate the exploit by going to "MULTIPLAYER", "NINTENDO WI-FI CONNECTION", and then "CONNECT TO NINTENDO WFC".
+
 For FIFA Street 2, activate the exploit by going to "My Street", "Profile", and then "Edit Profile".
 
 For FIFA Street 3, activate the exploit by going to "Multiplayer", "Host Game", and then "Yes".
@@ -35,8 +38,8 @@ For FIFA World Cup 2006, activate the exploit by going to "My Cup", and then "My
 
 For all other supported games, activate the exploit by going to "My FIFA (year)", and then "My Profile".
 
-### Partially supported games
+### Limitations
 
-FIFA 11 exploit works in Desmume with a warning, and doesn't work on real hardware.
+This is a single stage exploit that runs a small payload which turns the screen different colours. If you want to do something more advanced such as loading a background, you will need to write a second stage which loads more code from EEPROM.
 
-To activate this exploit, go to "MULTIPLAYER", "NINTENDO WI-FI CONNECTION", and then "CONNECT TO NINTENDO WFC".
+The FIFA 11 exploit is extremely limited. The code is copied with strcpy, so you cannot have any 0 bytes in your payload, and there is only slightly more than 100 bytes of code that can be written before you corrupt the CPSR, or overwrite the return address. But it works!
