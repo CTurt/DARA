@@ -15,12 +15,15 @@ Currently CRC fixing code has been implemented for the following games:
 - Fifa 07,
 - Fifa 08,
 - Fifa 09,
+- Fifa 10 (partial),
+- Fifa Street 2,
 
 These games are fully supported:
 
 - Fifa 07,
 - Fifa 08,
 - Fifa 09,
+- Fifa Street 2,
 
 These games are not exploitable:
 
