@@ -20,9 +20,6 @@ These games are fully supported:
 
 - Fifa 07,
 - Fifa 08,
-
-These games have confirmed exploits but are not finished:
-
 - Fifa 09,
 
 These games are not exploitable:
