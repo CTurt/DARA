@@ -3,11 +3,13 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define MAX_CRC 3
+
 struct game {
 	char name[16];
 	unsigned int magic;
-	unsigned int crcOffset[2];
-	unsigned short (*crcCalculation[2])(unsigned char *data);
+	unsigned int crcOffset[MAX_CRC];
+	unsigned short (*crcCalculation[MAX_CRC])(unsigned char *data);
 };
 
 unsigned short fifa06ecrc(unsigned char *data);
@@ -16,6 +18,7 @@ unsigned short fifa08ecrc(unsigned char *data);
 unsigned short fifa09ecrc(unsigned char *data);
 unsigned short fifa10ecrc(unsigned char *data);
 unsigned short fifa10etournamentscrc(unsigned char *data);
+unsigned short fifa10emyclubcrc(unsigned char *data);
 
 unsigned short fifaStreet2ucrc(unsigned char *data);
 
@@ -51,8 +54,8 @@ struct game games[] = {
 	{
 		name: "Fifa 10 E",
 		magic: 0x10071983,
-		crcOffset: { 0x04, 0x06 },
-		crcCalculation: { fifa10ecrc, fifa10etournamentscrc },
+		crcOffset: { 0x04, 0x06, 0x10 },
+		crcCalculation: { fifa10ecrc, fifa10etournamentscrc, fifa10emyclubcrc },
 	},
 	
 	{
@@ -111,7 +114,7 @@ unsigned short fifa09ecrc(unsigned char *data) {
 }
 
 unsigned short fifa10ecrc(unsigned char *data) {
-	unsigned short crc = 0x13;
+	unsigned short crc = 19;
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
@@ -127,6 +130,17 @@ unsigned short fifa10etournamentscrc(unsigned char *data) {
 	int i;
 	for(i = 0x00000110; i < 0x000005f8; i++) {
 		crc += (data[i] * (0x4E8 - i + 0x00000110));
+	}
+	
+	return crc;
+}
+
+unsigned short fifa10emyclubcrc(unsigned char *data) {
+	unsigned short crc = 19;
+	
+	int i;
+	for(i = 0x0000d8fc; i < 0x0000e1b8; i++) {
+		crc += (data[i] * (0x8BC - i + 0x0000d8fc));
 	}
 	
 	return crc;
@@ -202,7 +216,7 @@ int main(int argc, char **argv) {
 	fread(data, length, 1, f);
 	
 	int j;
-	for(j = 0; j < 2; j++) {
+	for(j = 0; j < MAX_CRC; j++) {
 		if(!games[i].crcCalculation) break;
 		
 		unsigned short currentCrc = *(unsigned short *)(data + games[i].crcOffset[j]);
