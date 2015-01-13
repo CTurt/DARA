@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
 	
 	int j;
 	for(j = 0; j < MAX_CRC; j++) {
-		if(!games[i].crcCalculation) break;
+		if(!games[i].crcCalculation[j]) break;
 		
 		unsigned short currentCrc = *(unsigned short *)(data + games[i].crcOffset[j]);
 		
