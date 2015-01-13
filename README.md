@@ -15,7 +15,7 @@ Currently CRC fixing code has been implemented for the following games:
 - Fifa 07,
 - Fifa 08,
 - Fifa 09,
-- Fifa 10 (partial),
+- Fifa 10,
 - Fifa Street 2,
 
 These games are fully supported:
@@ -25,6 +25,7 @@ These games are fully supported:
 - Fifa 09,
 - Fifa Street 2,
 
-These games are not exploitable:
+These games do not crash on Edit Profile with a long name and are probably not exploitable:
 
 - Fifa 06,
+- Fifa 10,

@@ -110,18 +110,14 @@ unsigned short fifa09ecrc(unsigned char *data) {
 }
 
 unsigned short fifa10ecrc(unsigned char *data) {
-	unsigned char crc = -133 - 104;
-	unsigned short part2 = 0x10000;
+	unsigned short crc = 0x13;
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
 		crc += (data[i] * (0x10C - i + 4));
-		part2 += (data[i] * (0x10C - i + 4));
 	}
 	
-	part2 &= 0xFF00;
-	
-	return crc | part2;
+	return crc;
 }
 
 unsigned short fifaStreet2ucrc(unsigned char *data) {
