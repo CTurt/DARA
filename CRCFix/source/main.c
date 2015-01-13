@@ -6,8 +6,8 @@
 struct game {
 	char name[16];
 	unsigned int magic;
-	unsigned int crcOffset;
-	unsigned short (*crcCalculation)(unsigned char *data);
+	unsigned int crcOffset[2];
+	unsigned short (*crcCalculation[2])(unsigned char *data);
 };
 
 unsigned short fifa06ecrc(unsigned char *data);
@@ -15,6 +15,7 @@ unsigned short fifa07ecrc(unsigned char *data);
 unsigned short fifa08ecrc(unsigned char *data);
 unsigned short fifa09ecrc(unsigned char *data);
 unsigned short fifa10ecrc(unsigned char *data);
+unsigned short fifa10etournamentscrc(unsigned char *data);
 
 unsigned short fifaStreet2ucrc(unsigned char *data);
 
@@ -22,43 +23,43 @@ struct game games[] = {
 	{
 		name: "Fifa 06 E",
 		magic: 0xF1FA06AA,
-		crcOffset: 0x0A,
-		crcCalculation: fifa06ecrc,
+		crcOffset: { 0x0A },
+		crcCalculation: { fifa06ecrc, NULL },
 	},
 	
 	{
 		name: "Fifa 07 E",
 		magic: 0xF1FA07BD,
-		crcOffset: 0x0A,
-		crcCalculation: fifa07ecrc,
+		crcOffset: { 0x0A },
+		crcCalculation: { fifa07ecrc, NULL },
 	},
 	
 	{
 		name: "Fifa 08 E",
 		magic: 0x10071981,
-		crcOffset: 0x04,
-		crcCalculation: fifa08ecrc,
+		crcOffset: { 0x04 },
+		crcCalculation: { fifa08ecrc, NULL },
 	},
 	
 	{
 		name: "Fifa 09 E",
 		magic: 0x10071982,
-		crcOffset: 0x04,
-		crcCalculation: fifa09ecrc,
+		crcOffset: { 0x04 },
+		crcCalculation: { fifa09ecrc, NULL },
 	},
 	
 	{
 		name: "Fifa 10 E",
 		magic: 0x10071983,
-		crcOffset: 0x04,
-		crcCalculation: fifa10ecrc,
+		crcOffset: { 0x04, 0x06 },
+		crcCalculation: { fifa10ecrc, fifa10etournamentscrc },
 	},
 	
 	{
 		name: "Fifa Street 2 U",
-		magic: 0xf1fa06ee,
-		crcOffset: 0x0a,
-		crcCalculation: fifaStreet2ucrc,
+		magic: 0xF1FA06EE,
+		crcOffset: { 0x0A },
+		crcCalculation: { fifaStreet2ucrc, NULL },
 	}
 };
 
@@ -115,6 +116,17 @@ unsigned short fifa10ecrc(unsigned char *data) {
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
 		crc += (data[i] * (0x10C - i + 4));
+	}
+	
+	return crc;
+}
+
+unsigned short fifa10etournamentscrc(unsigned char *data) {
+	unsigned short crc = 19;
+	
+	int i;
+	for(i = 0x00000110; i < 0x000005f8; i++) {
+		crc += (data[i] * (0x4E8 - i + 0x00000110));
 	}
 	
 	return crc;
@@ -189,27 +201,32 @@ int main(int argc, char **argv) {
 	rewind(f);
 	fread(data, length, 1, f);
 	
-	unsigned short currentCrc = *(unsigned short *)(data + games[i].crcOffset);
-	
-	printf("Current CRC    : 0x%p\n", currentCrc);
-	
-	unsigned short crc = games[i].crcCalculation(data);
-	free(data);
-	
-	printf("Calculated CRC : 0x%p\n", crc);
-	
-	//printf("Difference : %d\n", currentCrc - crc);
-	
-	if(currentCrc != crc) {
-		if(askBeforeFixing) {
-			printf("Incorrect CRC, press enter to fix\n");
-			getchar();
-		}
+	int j;
+	for(j = 0; j < 2; j++) {
+		if(!games[i].crcCalculation) break;
 		
-		fseek(f, games[i].crcOffset, SEEK_SET);
-		fwrite(&crc, sizeof(unsigned short), 1, f);
+		unsigned short currentCrc = *(unsigned short *)(data + games[i].crcOffset[j]);
+		
+		printf("Current CRC (%d)    : 0x%p\n", j, currentCrc);
+		
+		unsigned short crc = games[i].crcCalculation[j](data);
+		
+		printf("Calculated CRC (%d) : 0x%p\n", j, crc);
+		
+		printf("Difference : %d\n", currentCrc - crc);
+		
+		if(currentCrc != crc) {
+			if(askBeforeFixing) {
+				printf("Incorrect CRC, press enter to fix\n");
+				getchar();
+			}
+			
+			fseek(f, games[i].crcOffset[j], SEEK_SET);
+			fwrite(&crc, sizeof(unsigned short), 1, f);
+		}
 	}
 	
+	free(data);
 	fclose(f);
 	return 0;
 }
