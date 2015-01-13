@@ -1,34 +1,35 @@
 DARA
 ====
 
-Collection of save game exploits for Fifa games to run unsigned code on the DS.
+Collection of save game exploits for FIFA games to run unsigned code on the DS.
 
 CRCFix fixes the checksum of a save file to stop it showing up as corrupt in the game.
 
 Exploit directory builds the exploitable save games.
 
-To activate the exploit go to "My FIFA (year)", and then "My Profile".
+Activating the exploit
+###
+For FIFA 10 activate the exploit by going to "My FIFA 10", "Creation Zone", and then "My Custom Club",
+For FIFA Street 2 activate the exploit by going to "My Street", "Profile", and then "Edit Profile",
+For all other supported games activate the exploit by going to "My FIFA (year)", and then "My Profile".
 
 Currently CRC fixing code has been implemented for the following games:
 
-- Fifa 06,
-- Fifa 07,
-- Fifa 08,
-- Fifa 09,
-- Fifa 10,
-- Fifa Street 2,
+- FIFA 06,
+- FIFA 07,
+- FIFA 08,
+- FIFA 09,
+- FIFA 10,
+- FIFA Street 2,
 
-These games are fully supported:
+And there is support for running code on the following games:
 
-- Fifa 07,
-- Fifa 08,
-- Fifa 09,
-- Fifa Street 2,
-
-These games do not crash on Edit Profile with a long profile name but they do crash on My Club with a long club name, probably exploitable:
-
-- Fifa 10,
+- FIFA 07,
+- FIFA 08,
+- FIFA 09,
+- FIFA 10,
+- FIFA Street 2,
 
 These games do not crash on Edit Profile with a long name and are probably not exploitable:
 
-- Fifa 06,
+- FIFA 06,
