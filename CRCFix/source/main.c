@@ -22,11 +22,12 @@ unsigned short fifa10ecrc(unsigned char *data);
 unsigned short fifa10etournamentscrc(unsigned char *data);
 unsigned short fifa10emyclubcrc(unsigned char *data);
 
+unsigned short fifaStreet2ecrc(unsigned char *data);
 unsigned short fifaStreet2ucrc(unsigned char *data);
 
 struct game games[] = {
 	{
-		name: "Fifa 06 E",
+		name: "FIFA 06 E",
 		magic: 0xF1FA06AA,
 		crcOffset: { 0x10 },
 		crcCalculation: { fifa06emyclubcrc, NULL },
@@ -35,42 +36,49 @@ struct game games[] = {
 	},
 	
 	{
-		name: "Fifa 07 E",
+		name: "FIFA 07 E",
 		magic: 0xF1FA07BF,
 		crcOffset: { 0x0A },
 		crcCalculation: { fifa07ecrc, NULL },
 	},
 	
 	{
-		name: "Fifa 07 U",
+		name: "FIFA 07 U",
 		magic: 0xF1FA07BD,
 		crcOffset: { 0x0A },
 		crcCalculation: { fifa07ucrc, NULL },
 	},
 	
 	{
-		name: "Fifa 08 E",
+		name: "FIFA 08 E",
 		magic: 0x10071981,
 		crcOffset: { 0x04 },
 		crcCalculation: { fifa08ecrc, NULL },
 	},
 	
 	{
-		name: "Fifa 09 E",
+		name: "FIFA 09 E",
 		magic: 0x10071982,
 		crcOffset: { 0x04 },
 		crcCalculation: { fifa09ecrc, NULL },
 	},
 	
 	{
-		name: "Fifa 10 E",
+		name: "FIFA 10 E",
 		magic: 0x10071983,
 		crcOffset: { 0x04, 0x06, 0x10 },
 		crcCalculation: { fifa10ecrc, fifa10etournamentscrc, fifa10emyclubcrc },
 	},
 	
 	{
-		name: "Fifa Street 2 U",
+		name: "FIFA Street 2 E",
+		magic: 0xF1FA06AA,			// FIFA Street 2 E and FIFA 06 E use the same magic...
+		crcOffset: { 0x0A },
+		crcCalculation: { fifaStreet2ecrc, NULL },
+	},
+	
+	{
+		name: "FIFA Street 2 U",
 		magic: 0xF1FA06EE,
 		crcOffset: { 0x0A },
 		crcCalculation: { fifaStreet2ucrc, NULL },
@@ -83,7 +91,7 @@ unsigned short fifa06ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x0000000C; i < 0x00000158; i++) {
-	crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
 	}
 	
 	return crc;*/
@@ -193,6 +201,18 @@ unsigned short fifa10emyclubcrc(unsigned char *data) {
 	return crc;
 }
 
+unsigned short fifaStreet2ecrc(unsigned char *data) {
+	unsigned short crc = -16045;
+	int m = 4052;
+	
+	int i;
+	for(i = 0x00000010; i < 4051; i++) {
+		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+	}
+	
+	return crc;
+}
+
 unsigned short fifaStreet2ucrc(unsigned char *data) {
 	unsigned int crc = -9649843;
 	int m = 4052;
@@ -234,10 +254,19 @@ int main(int argc, char **argv) {
 	unsigned int magic;
 	fread(&magic, sizeof(unsigned int), 1, f);
 	
+	unsigned char street2eIdentifier; // Since FIFA 06 E and FIFA Street 2 E have the same magic, we have to do check this byte as well
+	fseek(f, 0x00000034, SEEK_SET);
+	fread(&street2eIdentifier, sizeof(unsigned char), 1, f);
+	
 	int i;
 	for(i = 0; i < sizeof(games) / sizeof(struct game); i++) {
 		if(magic == games[i].magic) {
-			break;
+			if(strcasecmp(games[i].name, "FIFA 06 E") == 0) {
+				if(street2eIdentifier != 0x01) break; // not Street 2 E
+			}
+			else {
+				break;
+			}
 		}
 		else if(i == sizeof(games) / sizeof(struct game) - 1) {
 			printf("Unrecognised game save\n");
