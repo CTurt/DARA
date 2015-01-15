@@ -1,15 +1,15 @@
 DARA
 ====
-Collection of save game exploits for FIFA games to run unsigned code on the DS.
+An attempt to exploit every single FIFA game on the DS (all regions) to run unsigned code through its save file.
 
-Currently there is support for running code on the following games:
+Currently there is support for running code through the following games:
 
-- FIFA 06,
-- FIFA 07,
-- FIFA 08,
-- FIFA 09,
-- FIFA 10,
-- FIFA Street 2,
+- FIFA 06 (E),
+- FIFA 07 (E and U),
+- FIFA 08 (E),
+- FIFA 09 (E),
+- FIFA 10 (E),
+- FIFA Street 2 (E and U),
 
 Usage
 ###
