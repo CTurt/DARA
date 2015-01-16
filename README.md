@@ -30,7 +30,6 @@ For all other supported games activate the exploit by going to "My FIFA (year)",
 ### Games yet to be attempted
 
 - FIFA 11,
-- FIFA Street,
 
 ### Problem games
 
