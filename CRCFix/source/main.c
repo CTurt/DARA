@@ -6,7 +6,7 @@
 #define MAX_CRC 3
 
 struct game {
-	char name[16];
+	char name[32];
 	unsigned int magic;
 	unsigned int crcOffset[MAX_CRC];
 	unsigned short (*crcCalculation[MAX_CRC])(unsigned char *data);
@@ -25,6 +25,8 @@ unsigned short fifa10emyclubcrc(unsigned char *data);
 unsigned short fifaStreet2ecrc(unsigned char *data);
 unsigned short fifaStreet2ucrc(unsigned char *data);
 unsigned short fifaStreet3ecrc(unsigned char *data);
+
+unsigned short fifaWorldCup2006e(unsigned char *data);
 
 struct game games[] = {
 	{
@@ -90,6 +92,13 @@ struct game games[] = {
 		magic: 0x0BADB00B,			// EA...
 		crcOffset: { 0x06 },
 		crcCalculation: { fifaStreet3ecrc, NULL },
+	},
+	
+	{
+		name: "FIFA World Cup 2006 (E)",
+		magic: 0xF1FA06AC,
+		crcOffset: { 0x0A },
+		crcCalculation: { fifaWorldCup2006e, NULL },
 	}
 };
 
@@ -240,6 +249,18 @@ unsigned short fifaStreet3ecrc(unsigned char *data) {
 	int i;
 	for(i = 0x00000010; i < 0x00000d9f; i++) {
 		crc += (data[i] * ((0xDB4 + 0x70) - i));
+	}
+	
+	return crc;
+}
+
+unsigned short fifaWorldCup2006e(unsigned char *data) {
+	unsigned short crc = -3607;
+	int m = 0x021C + 0x00000075 - 1;
+	
+	int i;
+	for(i = 0x00000040; i < 0x00000290; i++) {
+		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
 	}
 	
 	return crc;
