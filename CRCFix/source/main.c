@@ -24,6 +24,7 @@ unsigned short fifa10emyclubcrc(unsigned char *data);
 
 unsigned short fifaStreet2ecrc(unsigned char *data);
 unsigned short fifaStreet2ucrc(unsigned char *data);
+unsigned short fifaStreet3ecrc(unsigned char *data);
 
 struct game games[] = {
 	{
@@ -82,6 +83,13 @@ struct game games[] = {
 		magic: 0xF1FA06EE,
 		crcOffset: { 0x0A },
 		crcCalculation: { fifaStreet2ucrc, NULL },
+	},
+	
+	{
+		name: "FIFA Street 3 E",
+		magic: 0x0BADB00B,			// EA...
+		crcOffset: { 0x06 },
+		crcCalculation: { fifaStreet3ecrc, NULL },
 	}
 };
 
@@ -224,6 +232,17 @@ unsigned short fifaStreet2ucrc(unsigned char *data) {
 	
 	crc &= 0x0000FFFF;
 	return (unsigned short)crc;
+}
+
+unsigned short fifaStreet3ecrc(unsigned char *data) {
+	unsigned short crc = 9936;
+	
+	int i;
+	for(i = 0x00000010; i < 0x00000d9f; i++) {
+		crc += (data[i] * ((0xDB4 + 0x70) - i));
+	}
+	
+	return crc;
 }
 
 int main(int argc, char **argv) {
