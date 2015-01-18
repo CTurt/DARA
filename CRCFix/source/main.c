@@ -12,7 +12,6 @@ struct game {
 	unsigned short (*crcCalculation[MAX_CRC])(unsigned char *data);
 };
 
-unsigned short fifa06ecrc(unsigned char *data);
 unsigned short fifa06emyclubcrc(unsigned char *data);
 unsigned short fifa07ecrc(unsigned char *data);
 unsigned short fifa07ucrc(unsigned char *data);
@@ -35,8 +34,6 @@ struct game games[] = {
 		magic: 0xF1FA06AA,
 		crcOffset: { 0x10 },
 		crcCalculation: { fifa06emyclubcrc, NULL },
-		//crcOffset: { 0x0A, 0x10 },
-		//crcCalculation: { fifa06ecrc, fifa06myclubcrc, NULL },
 	},
 	
 	{
@@ -110,37 +107,13 @@ struct game games[] = {
 	}
 };
 
-unsigned short fifa06ecrc(unsigned char *data) {
-	/*unsigned short crc = 64325;
-	int m = 344;
-	
-	int i;
-	for(i = 0x0000000C; i < 0x00000158; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
-	}
-	
-	return crc;*/
-	
-	/*unsigned short crc = 58221;
-	int m = 344;
-	
-	int i;
-	for(i = 0x0000000C; i < 0x000003b8; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
-	}
-	
-	return crc;*/
-	
-	return 0;
-}
-
 unsigned short fifa06emyclubcrc(unsigned char *data) {
 	unsigned short crc = 21;
 	int m = 0xD98 - 0x000003b8 + 1904;
 	
 	int i;
 	for(i = 0x000003b8; i < 0x00001150; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
@@ -152,7 +125,7 @@ unsigned short fifa07ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000028; i < 0x0000026B; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
@@ -164,7 +137,7 @@ unsigned short fifa07ucrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000028; i < 0x0000026B; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
@@ -176,7 +149,7 @@ unsigned short fifa08ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000044; i < 0x00000500; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
@@ -187,7 +160,7 @@ unsigned short fifa09ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000020; i < 0x0000010D; i++) {
-		crc += (data[i] * (0x10C - i));
+		crc += data[i] * (0x10C - i);
 	}
 	
 	return crc;
@@ -198,7 +171,7 @@ unsigned short fifa10ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
-		crc += (data[i] * (0x10C - i + 4));
+		crc += data[i] * (0x10C - i + 4);
 	}
 	
 	return crc;
@@ -209,7 +182,7 @@ unsigned short fifa10etournamentscrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000110; i < 0x000005f8; i++) {
-		crc += (data[i] * (0x4E8 - i + 0x00000110));
+		crc += data[i] * (0x4E8 - i + 0x00000110);
 	}
 	
 	return crc;
@@ -220,7 +193,7 @@ unsigned short fifa10emyclubcrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x0000d8fc; i < 0x0000e1b8; i++) {
-		crc += (data[i] * (0x8BC - i + 0x0000d8fc));
+		crc += data[i] * (0x8BC - i + 0x0000d8fc);
 	}
 	
 	return crc;
@@ -231,7 +204,7 @@ unsigned short fifa11ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x000005d4; i < 0x00000718; i++) {
-		crc += (data[i] * (0xc7 - i + 0x000005dd));
+		crc += data[i] * (0xc7 - i + 0x000005dd);
 	}
 	
 	return crc;
@@ -243,7 +216,7 @@ unsigned short fifaStreet2ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000010; i < 4051; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
@@ -255,7 +228,7 @@ unsigned short fifaStreet2ucrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000010; i < 4051; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	crc &= 0x0000FFFF;
@@ -267,7 +240,7 @@ unsigned short fifaStreet3ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000010; i < 0x00000d9f; i++) {
-		crc += (data[i] * ((0xDB4 + 0x70) - i));
+		crc += data[i] * ((0xDB4 + 0x70) - i);
 	}
 	
 	return crc;
@@ -279,7 +252,7 @@ unsigned short fifaWorldCup2006e(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000290; i++) {
-		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+		crc += data[i] * (m - (i & ~0x3));
 	}
 	
 	return crc;
