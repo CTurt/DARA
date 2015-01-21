@@ -27,11 +27,8 @@ For FIFA Street 2 activate the exploit by going to "My Street", "Profile", and t
 
 For all other supported games activate the exploit by going to "My FIFA (year)", and then "My Profile".
 
-### Games yet to be attempted
-
-- FIFA 11,
-
 ### Problem games
 
 - FIFA World Cup 2006 (E) CRC fixing support is added, but the game doesn't crash with a large name.
 - FIFA Street 3 (E) CRC fixing support is added. The game crashes on the "Touch to Start" screen, but I can't get the PC to go to a meaningful address.
+- FIFA 11 (E) CRC fixing support is added. The large name is displayed, but couldn't get the game to crash.
