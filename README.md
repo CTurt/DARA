@@ -10,6 +10,7 @@ Currently there is support for running code through the following games:
 - FIFA 09 (E),
 - FIFA 10 (E),
 - FIFA Street 2 (E and U),
+- FIFA Street 3 (E),
 
 ### Usage
 
@@ -19,16 +20,17 @@ Run `make` on the `Exploit` directory to build the exploitable save games.
 
 ### Activating the exploit
 
-For FIFA 06 activate the exploit by going to "My Club", "Edit My Club".
+For FIFA 06, activate the exploit by going to "My Club", "Edit My Club".
 
-For FIFA 10 activate the exploit by going to "My FIFA 10", "Creation Zone", and then "My Custom Club".
+For FIFA 10, activate the exploit by going to "My FIFA 10", "Creation Zone", and then "My Custom Club".
 
-For FIFA Street 2 activate the exploit by going to "My Street", "Profile", and then "Edit Profile".
+For FIFA Street 2, activate the exploit by going to "My Street", "Profile", and then "Edit Profile".
 
-For all other supported games activate the exploit by going to "My FIFA (year)", and then "My Profile".
+For FIFA Street 3, activate the exploit by going to "Multiplayer", "Host Game", and then "Yes".
+
+For all other supported games, activate the exploit by going to "My FIFA (year)", and then "My Profile".
 
 ### Problem games
 
 - FIFA World Cup 2006 (E) CRC fixing support is added, but the game doesn't crash with a large name.
-- FIFA Street 3 (E) CRC fixing support is added. The game crashes on the "Touch to Start" screen, but I can't get the PC to go to a meaningful address.
 - FIFA 11 (E) CRC fixing support is added. The large name is displayed, but couldn't get the game to crash.
