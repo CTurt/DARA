@@ -37,10 +37,6 @@ For all other supported games, activate the exploit by going to "My FIFA (year)"
 
 ### Partially supported games
 
-FIFA 11 (E) CRC fixing support is added.
-
-You can place about 160 - 170 bytes of thumb code that does not contain any 0 bytes at `0x000005d4` in CRCFix/FIFA11E.sav.
-
-Hopefully this will be enough to load an ARM payload from EEPROM into RAM and jump to it.
+FIFA 11 exploit works in Desmume with a warning, and doesn't work on real hardware.
 
 To activate this exploit, go to "MULTIPLAYER", "NINTENDO WI-FI CONNECTION", and then "CONNECT TO NINTENDO WFC".
