@@ -11,6 +11,9 @@ Currently there is complete support for running code through the following games
 - FIFA 10 (E),
 - FIFA Street 2 (E and U),
 - FIFA Street 3 (E),
+- FIFA World Cup 2006 (E),
+
+This is every FIFA game on the DS apart from FIFA 11.
 
 ### Usage
 
@@ -28,6 +31,8 @@ For FIFA Street 2, activate the exploit by going to "My Street", "Profile", and 
 
 For FIFA Street 3, activate the exploit by going to "Multiplayer", "Host Game", and then "Yes".
 
+For FIFA World Cup 2006, activate the exploit by going to "My Cup", and then "My Profile".
+
 For all other supported games, activate the exploit by going to "My FIFA (year)", and then "My Profile".
 
 ### Partially supported games
@@ -39,7 +44,3 @@ You can place about 160 - 170 bytes of thumb code that does not contain any 0 by
 Hopefully this will be enough to load an ARM payload from EEPROM into RAM and jump to it.
 
 To activate this exploit, go to "MULTIPLAYER", "NINTENDO WI-FI CONNECTION", and then "CONNECT TO NINTENDO WFC".
-
-### Problem games
-
-FIFA World Cup 2006 (E) CRC fixing support is added, but the game doesn't crash with a large name.
