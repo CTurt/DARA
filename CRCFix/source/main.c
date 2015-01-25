@@ -112,11 +112,10 @@ struct game games[] = {
 
 unsigned short fifa06emyclubcrc(unsigned char *data) {
 	unsigned short crc = 21;
-	int m = 0xD98 - 0x000003b8 + 1904;
 	
 	int i;
 	for(i = 0x000003b8; i < 0x00001150; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+		crc += data[i] * (0x00001150 - (i & ~0x3));
 	}
 	
 	return crc;
@@ -124,11 +123,10 @@ unsigned short fifa06emyclubcrc(unsigned char *data) {
 
 unsigned short fifa07ecrc(unsigned char *data) {
 	unsigned short crc = 26;
-	int m = 0x0000026C;
 	
 	int i;
-	for(i = 0x00000028; i < 0x0000026B; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+	for(i = 0x00000028; i < 0x0000026C; i++) {
+		crc += data[i] * (0x0000026C - (i & ~0x3));
 	}
 	
 	return crc;
@@ -136,16 +134,16 @@ unsigned short fifa07ecrc(unsigned char *data) {
 
 unsigned short fifa07ucrc(unsigned char *data) {
 	unsigned short crc = 24;
-	int m = 0x0000026C;
 	
 	int i;
-	for(i = 0x00000028; i < 0x0000026B; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+	for(i = 0x00000028; i < 0x0000026C; i++) {
+		crc += data[i] * (0x0000026C - (i & ~0x3));
 	}
 	
 	return crc;
 }
 
+// Todo: check accuracy of this function
 unsigned short fifa08ecrc(unsigned char *data) {
 	unsigned short crc = 18723;
 	int m = 0x000002C4;
@@ -162,8 +160,8 @@ unsigned short fifa09ecrc(unsigned char *data) {
 	unsigned short crc = 19;
 	
 	int i;
-	for(i = 0x00000020; i < 0x0000010D; i++) {
-		crc += data[i] * (0x10C - i);
+	for(i = 0x00000020; i < 0x0000010C; i++) {
+		crc += data[i] * (0x0000010C - i);
 	}
 	
 	return crc;
@@ -174,7 +172,7 @@ unsigned short fifa10ecrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
-		crc += data[i] * (0x10C - i + 4);
+		crc += data[i] * (0x00000110 - i);
 	}
 	
 	return crc;
@@ -185,7 +183,7 @@ unsigned short fifa10etournamentscrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x00000110; i < 0x000005f8; i++) {
-		crc += data[i] * (0x4E8 - i + 0x00000110);
+		crc += data[i] * (0x000005f8 - i);
 	}
 	
 	return crc;
@@ -196,7 +194,7 @@ unsigned short fifa10emyclubcrc(unsigned char *data) {
 	
 	int i;
 	for(i = 0x0000d8fc; i < 0x0000e1b8; i++) {
-		crc += data[i] * (0x8BC - i + 0x0000d8fc);
+		crc += data[i] * (0x0000e1b8 - i);
 	}
 	
 	return crc;
