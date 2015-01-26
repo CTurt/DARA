@@ -212,10 +212,10 @@ unsigned short fifa11emyprofilecrc(unsigned char *data) {
 }
 
 unsigned short fifa11eoptionscrc(unsigned char *data) {
-	unsigned short crc = 1075;
+	unsigned short crc = 19;
 	
 	int i;
-	for(i = 0x000006a6; i < 0x00000706; i++) {
+	for(i = 0x000006a6; i < 0x00000716; i++) {
 		crc += data[i] * (0x60 - i + 0x000006b6);
 	}
 	
