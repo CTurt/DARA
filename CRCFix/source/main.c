@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#define MAX_CRC 3
+#define MAX_CRC 4
 
 struct game {
 	char name[32];
@@ -23,6 +23,7 @@ unsigned short fifa10emyclubcrc(unsigned char *data);
 unsigned short fifa11emyprofilecrc(unsigned char *data);
 unsigned short fifa11eoptionscrc(unsigned char *data);
 unsigned short fifa11edefaultrostercrc(unsigned char *data);
+unsigned short fifa11ecustomformationscrc(unsigned char *data);
 
 unsigned short fifaStreet2ecrc(unsigned char *data);
 unsigned short fifaStreet2ucrc(unsigned char *data);
@@ -70,14 +71,14 @@ struct game games[] = {
 		name: "FIFA 10 E",
 		magic: 0x10071983,
 		crcOffset: { 0x04, 0x06, 0x10 },
-		crcCalculation: { fifa10ecrc, fifa10etournamentscrc, fifa10emyclubcrc },
+		crcCalculation: { fifa10ecrc, fifa10etournamentscrc, fifa10emyclubcrc, NULL },
 	},
 	
 	{
 		name: "FIFA 11 E",
 		magic: 0x93633892,
-		crcOffset: { 0x000005d2, 0x000006a4, 0x0000924a },
-		crcCalculation: { fifa11emyprofilecrc, fifa11eoptionscrc, fifa11edefaultrostercrc },
+		crcOffset: { 0x000005d2, 0x000006a4, 0x0000924a, 0x0000cb5a },
+		crcCalculation: { fifa11emyprofilecrc, fifa11eoptionscrc, fifa11edefaultrostercrc, fifa11ecustomformationscrc },
 	},
 	
 	{
@@ -229,6 +230,17 @@ unsigned short fifa11edefaultrostercrc(unsigned char *data) {
 	int i;
 	for(i = 0x00000924c; i < 0x0000c370; i++) {
 		crc += data[i] * (0x0000c370 - i);
+	}
+	
+	return crc;
+}
+
+unsigned short fifa11ecustomformationscrc(unsigned char *data) {
+	unsigned short crc = 19;
+	
+	int i;
+	for(i = 0x0000cb5c; i < 0x0000cd0c; i++) {
+		crc += data[i] * (0x0000cd0c - i);
 	}
 	
 	return crc;
