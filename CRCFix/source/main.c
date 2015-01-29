@@ -245,48 +245,44 @@ unsigned short fifa11ecustomformationscrc(unsigned char *data) {
 }
 
 unsigned short fifaStreet2ecrc(unsigned char *data) {
-	unsigned short crc = -16045;
-	int m = 4052;
+	unsigned short crc = 49491;
 	
 	int i;
-	for(i = 0x00000010; i < 4051; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+	for(i = 0x00000010; i < 0xFD4; i++) {
+		crc += data[i] * (0xFD4 - (i & ~0x3));
 	}
 	
 	return crc;
 }
 
 unsigned short fifaStreet2ucrc(unsigned char *data) {
-	unsigned int crc = -9649843;
-	int m = 4052;
+	unsigned short crc = 49485;
 	
 	int i;
-	for(i = 0x00000010; i < 4051; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+	for(i = 0x00000010; i < 0x00000FD4; i++) {
+		crc += data[i] * (0x00000FD4 - (i & ~0x3));
 	}
 	
-	crc &= 0x0000FFFF;
-	return (unsigned short)crc;
+	return crc;
 }
 
 unsigned short fifaStreet3ecrc(unsigned char *data) {
-	unsigned short crc = 9936;
+	unsigned short crc = 19;
 	
 	int i;
-	for(i = 0x00000010; i < 0x00000d9f; i++) {
-		crc += data[i] * ((0xDB4 + 0x70) - i);
+	for(i = 0x00000010; i < 0x00000E24; i++) {
+		crc += data[i] * (0x00000E24 - i);
 	}
 	
 	return crc;
 }
 
 unsigned short fifaWorldCup2006e(unsigned char *data) {
-	unsigned short crc = -3607;
-	int m = 0x021C + 0x00000075 - 1;
+	unsigned short crc = 61929;
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000290; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+		crc += data[i] * (0x00000290 - (i & ~0x3));
 	}
 	
 	return crc;
