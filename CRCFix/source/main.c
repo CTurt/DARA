@@ -143,14 +143,12 @@ unsigned short fifa07ucrc(unsigned char *data) {
 	return crc;
 }
 
-// Todo: check accuracy of this function
 unsigned short fifa08ecrc(unsigned char *data) {
-	unsigned short crc = 18723;
-	int m = 0x000002C4;
+	unsigned short crc = 19;
 	
 	int i;
-	for(i = 0x00000044; i < 0x00000500; i++) {
-		crc += data[i] * (m - (i & ~0x3));
+	for(i = 0x00000044; i < 0x000002C4; i++) {
+		crc += data[i] * (0x000002C4 - (i & ~0x3));
 	}
 	
 	return crc;
