@@ -16,6 +16,8 @@ unsigned short fifa08ecrc(unsigned char *data);
 unsigned short fifa09ecrc(unsigned char *data);
 unsigned short fifa10ecrc(unsigned char *data);
 
+unsigned short fifaStreet2ucrc(unsigned char *data);
+
 struct game games[] = {
 	{
 		name: "Fifa 06 E",
@@ -50,6 +52,13 @@ struct game games[] = {
 		magic: 0x10071983,
 		crcOffset: 0x04,
 		crcCalculation: fifa10ecrc,
+	},
+	
+	{
+		name: "Fifa Street 2 U",
+		magic: 0xf1fa06ee,
+		crcOffset: 0x0a,
+		crcCalculation: fifaStreet2ucrc,
 	}
 };
 
@@ -102,7 +111,7 @@ unsigned short fifa09ecrc(unsigned char *data) {
 
 unsigned short fifa10ecrc(unsigned char *data) {
 	unsigned char crc = -133 - 104;
-	unsigned char part2 = 0xf0;
+	unsigned char part2 = 0xf0; // todo
 	
 	int i;
 	for(i = 0x00000040; i < 0x00000110; i++) {
@@ -110,6 +119,19 @@ unsigned short fifa10ecrc(unsigned char *data) {
 	}
 	
 	return crc + (part2 << 8);
+}
+
+unsigned short fifaStreet2ucrc(unsigned char *data) {
+	unsigned int crc = -9649843;
+	int m = 4052;
+	
+	int i;
+	for(i = 0x00000010; i < 4051; i++) {
+		crc += (data[i] * ((m - (((i / 0x10) * 0x10))) - (((i / 0x4) * 0x4) - ((i / 0x10) * 0x10))));
+	}
+	
+	crc &= 0x0000FFFF;
+	return (unsigned short)crc;
 }
 
 int main(int argc, char **argv) {
