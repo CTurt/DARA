@@ -40,6 +40,6 @@ For all other supported games, activate the exploit by going to "My FIFA (year)"
 
 ### Limitations
 
-This is a single stage exploit that runs a small payload which turns the screen different colours. If you want to do something more advanced such as loading a background, you will need to write a second stage which loads more code from EEPROM.
+This is a single stage exploit that runs a small payload which turns the screen different colours. If you want to do something more advanced such as loading a background, you will need to write a second stage which loads more data from EEPROM.
 
-The FIFA 11 exploit is extremely limited. The code is copied with strcpy, so you cannot have any 0 bytes in your payload, and there is only slightly more than 100 bytes of code that can be written before you corrupt the CPSR, or overwrite the return address. But it works!
+The FIFA 11 exploit runs in DSi enhanced mode on DSi consoles, however it is extremely limited in its current state. The payload is copied with `strcpy`, so it cannot contain any 0 bytes, and it is limited to only slightly more than 100 bytes which can be written before corrupting the CPSR. But it works!
